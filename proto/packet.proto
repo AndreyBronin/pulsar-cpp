@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package packet;
+
+import "gogo.proto";
+import "pulse.proto";
+
+option (gogoproto.goproto_getters_all) = false;
+option (gogoproto.populate_all) = false;
+
+message Packet {
+    int32 polymorph = 16;
+
+    bytes Sender = 20 [(gogoproto.customtype) = "github.com/insolar/insolar/network/hostnetwork/host.Host"];
+    bytes Receiver = 21 [(gogoproto.customtype) = "github.com/insolar/insolar/network/hostnetwork/host.Host"];
+    uint64 RequestID = 22;
+    string TraceID = 23;
+    bytes TraceSpanData = 24;
+    uint32 Type = 26;
+
+    oneof Payload {
+        Request Request = 27;
+        Response Response = 28;
+    }
+}
+
+message Request {
+    oneof Request {
+        PulseRequest Pulse = 3;
+    }
+}
+
+message Response {
+    oneof Response {
+        BasicResponse Basic = 3; // response for Cascade and Pulse requests
+        ErrorResponse Error = 7;
+    }
+}
+
+message PulseRequest {
+    pulse.PulseProto Pulse = 1;
+}
+
+message BasicResponse {
+    bool Success = 1;
+    string Error = 2;
+}
+
+
+message ErrorResponse {
+    string Error = 1;
+}
+
