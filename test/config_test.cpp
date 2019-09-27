@@ -55,8 +55,8 @@ log:
 
 auto keys = R"(
 {
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMHcCAQEEIO5QuEnPdZOCCGmNzDghIkcv4oV8ne+n53izQ1lJWdMGoAoGCCqGSM49\nAwEHoUQDQgAE3pSnZadkHOUNqdjH9OuDNv0yMLrh27YpdwAdmjKq1XmcAuuqyHk7\nofk1WiWbZo8N9MkPewIOlkYiNFSb2aaSxw==\n-----END PRIVATE KEY-----\n",
-    "public_key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3pSnZadkHOUNqdjH9OuDNv0yMLrh\n27YpdwAdmjKq1XmcAuuqyHk7ofk1WiWbZo8N9MkPewIOlkYiNFSb2aaSxw==\n-----END PUBLIC KEY-----\n"
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgwYAFzRM5vgMr53wc\n9DzVFys6dNj3Z56J7XzLC62jK+ehRANCAASw4x080JGlYAfG+qLEHt8D2IMqPICm\nS1zuExXwEuJOv0kPY72kiqgwymJClryLC4pEw07rGKY9vPgKyEKX6dMj\n-----END PRIVATE KEY-----\n",
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsOMdPNCRpWAHxvqixB7fA9iDKjyA\npktc7hMV8BLiTr9JD2O9pIqoMMpiQpa8iwuKRMNO6ximPbz4CshCl+nTIw==\n-----END PUBLIC KEY-----\n"
 }
 )"_json;
 

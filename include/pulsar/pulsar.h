@@ -4,32 +4,19 @@
 
 #pragma once
 
-#include <string_view>
+#include <pulsar/configuration.h>
 
 namespace pulsar {
 
-/**
- * Configuration for pulsar service
- */
-    class PulsarConfiguration {
-    public:
-        PulsarConfiguration() = default;
-
-        virtual ~PulsarConfiguration() = default;
-
-        void LoadFromFile(std::string_view path);
-    };
-
-
-
-    struct Pulse {
-    };
+struct Pulse {
+};
 
 // Pulsar interface
-    struct Pulsar {
-        virtual ~Pulsar() = default;
+struct Pulsar {
+    explicit Pulsar(Configuration&& config);
+    virtual ~Pulsar() = default;
 
-        void DistributePulse(Pulse p);
-    };
+    void DistributePulse(Pulse p);
+};
 
 } // namespace pulsar

@@ -34,10 +34,14 @@ int main(int argc, char* argv[]) {
         }
 
         if (vm.count("config")) {
+            using namespace pulsar;
             const auto &filename = vm["config"].as<std::string>();
             std::cout << "Load config: " << filename << std::endl;
-            // LoadFromConfig(filename);
-            pulsar::CryptographyScheme cs("");
+
+            Configuration cfg;
+            cfg.LoadFromFile(filename);
+
+            pulsar::CryptographyScheme cs(cfg.GetKeysPath());
             cs.Sign(nullptr);
 
             return EXIT_SUCCESS;

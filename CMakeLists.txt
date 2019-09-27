@@ -14,7 +14,7 @@ option(PULSAR_WITH_TESTS "Build pulsar unit tests" ON)
 
 #set(Boost_USE_STATIC_LIBS        ON) # only find static libs
 #find_package(Boost 1.67 COMPONENTS REQUIRED)
-find_package(Boost 1.71 COMPONENTS program_options REQUIRED)
+find_package(Boost 1.71 COMPONENTS program_options filesystem REQUIRED)
 
 find_package(nlohmann_json 3.7.0 REQUIRED) # ubuntu apt has 2.1.1
 find_package(yaml-cpp 0.6.0 REQUIRED)
