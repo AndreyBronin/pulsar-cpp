@@ -1,22 +1,26 @@
-//
-// Created by Andrey Bronin on 25/09/2019.
-//
-
 #pragma once
 
 #include <pulsar/configuration.h>
+#include <pulsar/cryptography.h>
 
 namespace pulsar {
 
-struct Pulse {
+// Pulsar interface
+struct IPulsar {
+    virtual ~IPulsar() = default;
+
+    // ctx is context and cancellation token
+    virtual void StartDistribute(void* ctx, Config&& config, std::shared_ptr<ICryptographyScheme> crypto) = 0;
 };
 
-// Pulsar interface
-struct Pulsar {
-    explicit Pulsar(Configuration&& config);
-    virtual ~Pulsar() = default;
+class Pulsar: public IPulsar {
+public:
+    Pulsar() = default;
 
-    void DistributePulse(Pulse p);
+    void StartDistribute(void* ctx, Config&& config, std::shared_ptr<ICryptographyScheme> crypto) override;
+
+private:
+    std::unique_ptr<IPulsar> m_pulsar;
 };
 
 } // namespace pulsar

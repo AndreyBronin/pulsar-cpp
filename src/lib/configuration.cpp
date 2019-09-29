@@ -3,28 +3,30 @@
 
 namespace pulsar {
 
-void Configuration::LoadFromFile(const std::string& filename) {
-    YAML::Node config = YAML::LoadFile(filename);
+Config loadFromYaml(const YAML::Node& yml) {
+    Config result;
 
     std::list<std::string> hosts;
-    auto bootstraphosts = config["pulsar"]["pulsedistributor"]["bootstraphosts"];
+    auto bootstraphosts = yml["pulsar"]["pulsedistributor"]["bootstraphosts"];
     for(auto it=bootstraphosts.begin(); it!=bootstraphosts.end(); ++it) {
         hosts.emplace_back(it->as<std::string>());
     }
-    std::swap(hosts, m_bootstrapHosts);
+    std::swap(hosts, result.bootstrapHosts);
 
-    m_keysPath = config["keyspath"].as<std::string>();
-//    auto pulsetime1 = config["pulsetime"].as<int>();
-//    numberdelta = config["numberdelta"].as<int>();
+    result.keysPath = yml["keyspath"].as<std::string>();
+//    auto pulsetime1 = yml["pulsetime"].as<int>();
+//    numberdelta = yml["numberdelta"].as<int>();
+    return result;
 }
 
-const std::list<std::string>& Configuration::GetBootstrapHosts() const {
-    return m_bootstrapHosts;
+Config Configuration::LoadFromYamlFile(const std::string& fileName) {
+    YAML::Node yml = YAML::LoadFile(fileName);
+    return loadFromYaml(yml);
 }
 
-std::string Configuration::GetKeysPath() const {
-    return m_keysPath;
+Config Configuration::LoadFromYaml(const std::string &yamlString) {
+    YAML::Node yml = YAML::Load(yamlString);
+    return loadFromYaml(yml);
 }
 
 } // namespace pulsar
-

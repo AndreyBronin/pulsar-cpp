@@ -4,11 +4,22 @@
 
 namespace pulsar {
 
-class CryptographyScheme {
-public:
-    explicit CryptographyScheme(std::string keyspath);
+struct ICryptographyScheme {
+    virtual ~ICryptographyScheme() = default;
 
-    char *Sign(char *buff); // use span
+    virtual std::string GetPublicKeyPEM() = 0;
+    virtual char *Sign(char *buff) = 0;
+};
+
+class CryptographyScheme: public ICryptographyScheme {
+public:
+    explicit CryptographyScheme(std::string keysPath);
+
+    std::string GetPublicKeyPEM() override;
+    char *Sign(char *buff) override;
+
+private:
+    std::unique_ptr<ICryptographyScheme> m_cs;
 };
 
 } // namespace pulsar

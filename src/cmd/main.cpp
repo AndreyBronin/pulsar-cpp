@@ -4,6 +4,24 @@
 #include <pulsar/pulsar.h>
 #include <pulsar/cryptography.h>
 
+
+int startPulsar(const std::string& filename) {
+    using namespace pulsar;
+    try {
+        auto cfg = Configuration::LoadFromYamlFile(filename);
+        auto cs = std::make_shared<pulsar::CryptographyScheme>(cfg.keysPath);
+
+        pulsar::Pulsar pulsar;
+        pulsar.StartDistribute(nullptr, std::move(cfg), cs);
+    }
+    catch (std::exception const& e) {
+        std::cerr << "Failed to start pulsar: " << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
+
 int main(int argc, char* argv[]) {
     namespace po = boost::program_options;
     po::options_description desc("Options");
@@ -34,17 +52,8 @@ int main(int argc, char* argv[]) {
         }
 
         if (vm.count("config")) {
-            using namespace pulsar;
             const auto &filename = vm["config"].as<std::string>();
-            std::cout << "Load config: " << filename << std::endl;
-
-            Configuration cfg;
-            cfg.LoadFromFile(filename);
-
-            pulsar::CryptographyScheme cs(cfg.GetKeysPath());
-            cs.Sign(nullptr);
-
-            return EXIT_SUCCESS;
+            return startPulsar(filename);
         }
 
     }

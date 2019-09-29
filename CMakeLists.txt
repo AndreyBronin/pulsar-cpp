@@ -12,6 +12,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 option(PULSAR_WITH_TESTS "Build pulsar unit tests" ON)
 
+set (CMAKE_CXX_FLAGS "-g -Wall -DBOOST_LOG_DYN_LINK")
+
+
 #set(Boost_USE_STATIC_LIBS        ON) # only find static libs
 #find_package(Boost 1.67 COMPONENTS REQUIRED)
 find_package(Boost 1.71 COMPONENTS program_options filesystem REQUIRED)
