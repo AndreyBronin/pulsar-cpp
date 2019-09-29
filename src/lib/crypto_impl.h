@@ -9,7 +9,9 @@ namespace pulsar {
 
 class CryptographySchemeImpl : public ICryptographyScheme {
 public:
-    explicit CryptographySchemeImpl(std::string keysPath);
+    CryptographySchemeImpl() = default;
+
+    void LoadFromJsonString(const std::string& jsonStr);
 
     std::string GetPublicKeyPEM() override;
     char *Sign(char *buff) override;

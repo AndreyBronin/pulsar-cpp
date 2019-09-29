@@ -1,10 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <pulsar/configuration.h>
-#include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
-
-using json = nlohmann::json;
 
 const char *pulsarConfig = R"(
 pulsar:
@@ -52,15 +49,7 @@ log:
 
 )";
 
-auto keys = R"(
-{
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgwYAFzRM5vgMr53wc\n9DzVFys6dNj3Z56J7XzLC62jK+ehRANCAASw4x080JGlYAfG+qLEHt8D2IMqPICm\nS1zuExXwEuJOv0kPY72kiqgwymJClryLC4pEw07rGKY9vPgKyEKX6dMj\n-----END PRIVATE KEY-----\n",
-    "public_key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsOMdPNCRpWAHxvqixB7fA9iDKjyA\npktc7hMV8BLiTr9JD2O9pIqoMMpiQpa8iwuKRMNO6ximPbz4CshCl+nTIw==\n-----END PUBLIC KEY-----\n"
-}
-)"_json;
-
-TEST(configuration, LoadFromYaml_Succesfully_Loaded)
-{
+TEST(configuration, LoadFromYaml_Succesfully_Loaded) {
     auto cfg = pulsar::Configuration::LoadFromYaml(pulsarConfig);
 
     auto hosts = std::list<std::string>{"127.0.0.1:13831", "127.0.0.1:23832", "127.0.0.1:33833"};

@@ -9,7 +9,8 @@ int startPulsar(const std::string& filename) {
     using namespace pulsar;
     try {
         auto cfg = Configuration::LoadFromYamlFile(filename);
-        auto cs = std::make_shared<pulsar::CryptographyScheme>(cfg.keysPath);
+        auto cs = std::make_shared<pulsar::CryptographyScheme>();
+        cs->LoadFromJsonFile(cfg.keysPath);
 
         pulsar::Pulsar pulsar;
         pulsar.StartDistribute(nullptr, std::move(cfg), cs);

@@ -1,4 +1,4 @@
-#include "cryptography.h"
+#include "crypto_impl.h"
 
 #include <botan/ecdsa.h>
 
@@ -6,10 +6,6 @@
 #include <botan/auto_rng.h>
 #include <botan/data_src.h>
 #include <nlohmann/json.hpp>
-
-#include <boost/filesystem.hpp>
-
-#include <iostream>
 
 using json = nlohmann::json;
 
@@ -27,20 +23,8 @@ Public_Key *ImportPublicKey(const std::string &publicKey) {
 
 namespace pulsar {
 
-CryptographySchemeImpl::CryptographySchemeImpl(std::string keyspath) {
-    using namespace boost::filesystem;
-    std::string insolarSources = "/Users/bronin/go/src/github.com/insolar/insolar/"; // should be absolute path
-
-    if ( !boost::filesystem::exists( keyspath ) )
-    {
-        keyspath = insolarSources + keyspath;
-    }
-
-    std::cout << "Loading keys: " << keyspath << std::endl;
-
-    std::string keysStr;
-    load_string_file(keyspath, keysStr);
-    json keys = json::parse(keysStr);
+void CryptographySchemeImpl::LoadFromJsonString(const std::string& jsonStr) {
+    json keys = json::parse(jsonStr);
 
     auto priv = ImportPrivateKey(keys.at("private_key"));
     m_privateKey = std::move(priv);
@@ -55,7 +39,7 @@ char* CryptographySchemeImpl::Sign(char *buff) {
 }
 
 std::string CryptographySchemeImpl::GetPublicKeyPEM() {
-    return std::string();
+    return X509::PEM_encode(*m_publicKey);
 }
 
 } // namespace pulsar

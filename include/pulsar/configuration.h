@@ -19,7 +19,6 @@ class Configuration {
 public:
     static Config LoadFromYamlFile(const std::string& fileName);
     static Config LoadFromYaml(const std::string& yamlString);
-
 };
 
 } // namespace pulsar

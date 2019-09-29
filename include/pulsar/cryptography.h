@@ -13,7 +13,10 @@ struct ICryptographyScheme {
 
 class CryptographyScheme: public ICryptographyScheme {
 public:
-    explicit CryptographyScheme(std::string keysPath);
+    CryptographyScheme();
+
+    void LoadFromJsonFile(const std::string& keysPath);
+    void LoadFromJsonString(const std::string& json);
 
     std::string GetPublicKeyPEM() override;
     char *Sign(char *buff) override;

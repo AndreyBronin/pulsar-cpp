@@ -1,3 +1,5 @@
+#include <pulsar/cryptography.h>
+
 #include <gtest/gtest.h>
 
 #include <botan/ecdsa.h>
@@ -7,12 +9,25 @@
 #include <botan/auto_rng.h>
 #include <botan/data_src.h>
 #include <pulse.pb.h>
-//#include <cryptopp/sha3.h>
+
+#include "../src/lib/crypto_impl.h"
 
 using namespace Botan;
 
+auto keys = R"(
+{
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgwYAFzRM5vgMr53wc\n9DzVFys6dNj3Z56J7XzLC62jK+ehRANCAASw4x080JGlYAfG+qLEHt8D2IMqPICm\nS1zuExXwEuJOv0kPY72kiqgwymJClryLC4pEw07rGKY9vPgKyEKX6dMj\n-----END PRIVATE KEY-----\n",
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsOMdPNCRpWAHxvqixB7fA9iDKjyA\npktc7hMV8BLiTr9JD2O9pIqoMMpiQpa8iwuKRMNO6ximPbz4CshCl+nTIw==\n-----END PUBLIC KEY-----\n"
+}
+)";
 
-const char *keyString = R"(
+const std::string pkPem =R"(-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsOMdPNCRpWAHxvqixB7fA9iDKjyA
+pktc7hMV8BLiTr9JD2O9pIqoMMpiQpa8iwuKRMNO6ximPbz4CshCl+nTIw==
+-----END PUBLIC KEY-----
+)";
+
+const char *privatePem = R"(
 -----BEGIN PRIVATE KEY-----
 MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgIim8RlCCD+mLqxBt
 2cXgycQlFiD7sFCz9Qf962kL1w+hRANCAATYYOwbW09dA4jaJ8Z/c7TOehxLzvf8
@@ -20,8 +35,11 @@ VYdd+R+be8Yvy1AW8lhidLQxY6YM5aXE1jiJKqJKnUhrNNkDJRMvdDhG
 -----END PRIVATE KEY-----
 )";
 
-TEST(cryptography, wrong_letter_highlighted)
-{
+TEST(cryptography, GetPublicKeyPEM) {
+    pulsar::CryptographySchemeImpl cs;
+    cs.LoadFromJsonString(keys);
+
+    EXPECT_EQ(pkPem, cs.GetPublicKeyPEM());
 //    AutoSeeded_RNG rng;
 //    EC_Group dom_pars("secp160r1");
 //    ECDSA_PrivateKey key(rng, dom_pars);
@@ -36,9 +54,9 @@ TEST(cryptography, wrong_letter_highlighted)
 //    DataSource_Memory keyData( ber );
 //    auto keyReloaded = PKCS8::load_key( keyData, rng );
 
-    DataSource_Memory keyData( keyString );
-    auto key = PKCS8::load_key(keyData);
-    std::cout << key->algo_name()  << std::endl;
+//    DataSource_Memory keyData( privatePem );
+//    auto key = PKCS8::load_key(keyData);
+//    std::cout << key->algo_name()  << std::endl;
 }
 
 
