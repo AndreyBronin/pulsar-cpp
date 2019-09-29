@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <pulsar/configuration.h>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 
@@ -29,8 +30,6 @@ pulsar:
       - 127.0.0.1:13831
       - 127.0.0.1:23832
       - 127.0.0.1:33833
-      - 127.0.0.1:43834
-      - 127.0.0.1:53835
     pingrequesttimeout: 1000
     randomhostsrequesttimeout: 1000
     pulserequesttimeout: 1000
@@ -60,7 +59,13 @@ auto keys = R"(
 }
 )"_json;
 
-TEST(configuration, readConfig)
+TEST(configuration, LoadFromYaml_Succesfully_Loaded)
 {
-EXPECT_TRUE(1);
+    auto cfg = pulsar::Configuration::LoadFromYaml(pulsarConfig);
+
+    auto hosts = std::list<std::string>{"127.0.0.1:13831", "127.0.0.1:23832", "127.0.0.1:33833"};
+    EXPECT_EQ(".artifacts/launchnet/configs/pulsar_keys.json", cfg.keysPath);
+    EXPECT_EQ(10000, cfg.pulseTime);
+    EXPECT_EQ(10, cfg.numberDelta);
+    EXPECT_EQ(hosts, cfg.bootstrapHosts);
 }

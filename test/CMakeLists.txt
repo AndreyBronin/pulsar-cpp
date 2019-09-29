@@ -6,8 +6,10 @@ include_directories(${GTEST_INCLUDE_DIRS})
 # https://cmake.org/cmake/help/v3.14/module/GoogleTest.html
 
 include(GoogleTest)
-add_executable(${PROJECT_NAME} cryptography_test.cpp)
-target_link_libraries(${PROJECT_NAME} ${GTEST_BOTH_LIBRARIES} ${BOTAN_LIBRARIES} ${PROTOBUF_LIBRARY} proto)
+add_executable(${PROJECT_NAME} cryptography_test.cpp config_test.cpp)
+target_link_libraries(${PROJECT_NAME} ${GTEST_BOTH_LIBRARIES} ${LIB_TARGET_NAME}
+        ${BOTAN_LIBRARIES} ${PROTOBUF_LIBRARY} ${YAML_CPP_LIBRARIES} proto
+        )
 
 gtest_add_tests(TARGET      ${PROJECT_NAME}
         TEST_SUFFIX .noArgs
