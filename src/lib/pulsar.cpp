@@ -13,9 +13,17 @@ PulsarImpl::PulsarImpl(class Config&& config, CryptographyScheme&& cryptographyS
 
 
 void PulsarImpl::DistributePulse(const Pulse& p) {
+    // make new pusle to distribute
+    uint32_t pulseNumber = 123;
     Pulse pulse;
-    pulse.set_pulsenumber(123);
+    pulse.set_pulsenumber(pulseNumber);
+    pulse.set_epochpulsenumber(pulseNumber);
     pulse.set_pulsetimestamp(std::time(nullptr));
+
+    auto sign = pulse.add_signs();
+    sign->set_pulsenumber(pulseNumber);
+    sign->set_publickey("");
+    sign->set_signature("");
 
     std::ostringstream stream;
     p.SerializeToOstream(&stream);

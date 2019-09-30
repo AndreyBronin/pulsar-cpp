@@ -1,7 +1,7 @@
 #pragma once
 
 #include <pulsar/cryptography.h>
-#include <botan-2/botan/x509_key.h>
+#include <botan/x509_key.h>
 
 using namespace Botan;
 
